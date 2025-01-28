@@ -20,6 +20,10 @@ public class StorageService {
         this.articleStorage = new HashMap<>();
         fillStorageWithTestData(); // Заполняем хранилище
     }
+
+    public Optional<Product> getProductById(UUID id) {
+        return Optional.ofNullable(productStorage.get(id));
+    }
     // Метод для получения всех Searchable (продуктов и статей)
     public Collection<Searchable> getAllSearchables() {
         Collection<Searchable> searchables = new ArrayList<>();
