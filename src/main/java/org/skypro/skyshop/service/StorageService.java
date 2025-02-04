@@ -1,5 +1,6 @@
 package org.skypro.skyshop.service;
 
+import org.skypro.skyshop.exception.NoSuchProductException;
 import org.skypro.skyshop.model.article.Article;
 import org.skypro.skyshop.model.product.DiscountedProduct;
 import org.skypro.skyshop.model.product.FixPriceProduct;
@@ -24,6 +25,10 @@ public class StorageService {
     public Optional<Product> getProductById(UUID id) {
         return Optional.ofNullable(productStorage.get(id));
     }
+    public Product getProductByIdOrThrow(UUID id) {
+        return getProductById(id)
+                .orElseThrow(() -> new NoSuchProductException("Товар с id " + id + " не найден"));
+    }
     // Метод для получения всех Searchable (продуктов и статей)
     public Collection<Searchable> getAllSearchables() {
         Collection<Searchable> searchables = new ArrayList<>();
@@ -35,16 +40,25 @@ public class StorageService {
     // Метод для заполнения хранилища
     private void fillStorageWithTestData() {
         // Добавляем продукты
-        productStorage.put(UUID.randomUUID(), new SimpleProduct(UUID.randomUUID(), "Корректор для текста", 218));
-        productStorage.put(UUID.randomUUID(), new SimpleProduct(UUID.randomUUID(), "Ластик", 221));
-        productStorage.put(UUID.randomUUID(), new DiscountedProduct(UUID.randomUUID(), "Клей", 120, 25));
-        productStorage.put(UUID.randomUUID(), new DiscountedProduct(UUID.randomUUID(), "Cтеплер", 346, 15));
-        productStorage.put(UUID.randomUUID(), new FixPriceProduct(UUID.randomUUID(), "Ручка"));
-        productStorage.put(UUID.randomUUID(), new FixPriceProduct(UUID.randomUUID(), "Скобы для степлера"));
+        UUID id1 = UUID.randomUUID();
+        productStorage.put(id1, new SimpleProduct(id1, "Корректор для текста", 218));
+        UUID id2 = UUID.randomUUID();
+        productStorage.put(id2, new SimpleProduct(id2, "Ластик", 221));
+        UUID id3 = UUID.randomUUID();
+        productStorage.put(id3, new DiscountedProduct(id3, "Клей", 120, 25));
+        UUID id4 = UUID.randomUUID();
+        productStorage.put(id4, new DiscountedProduct(id4, "Cтеплер", 346, 15));
+        UUID id5 = UUID.randomUUID();
+        productStorage.put(id5, new FixPriceProduct(id5, "Ручка"));
+        UUID id6 = UUID.randomUUID();
+        productStorage.put(id6, new FixPriceProduct(id6, "Скобы для степлера"));
         // Добавляем статьи
-        articleStorage.put(UUID.randomUUID(), new Article(UUID.randomUUID(), "Как выбрать канцтовары", "В статье описаны критерии выбора ручек, ластиков и степлеров."));
-        articleStorage.put(UUID.randomUUID(), new Article(UUID.randomUUID(), "Советы по экономии", "Научитесь выбирать товары со скидкой."));
-        articleStorage.put(UUID.randomUUID(), new Article(UUID.randomUUID(), "История канцелярских принадлежностей", "Ручки и ластики имеют длинную и увлекательную историю."));
+        UUID articleId1 = UUID.randomUUID();
+        articleStorage.put(articleId1, new Article(articleId1, "Как выбрать канцтовары", "В статье описаны критерии выбора ручек, ластиков и степлеров."));
+        UUID articleId2 = UUID.randomUUID();
+        articleStorage.put(articleId2, new Article(articleId2, "Советы по экономии", "Научитесь выбирать товары со скидкой."));
+        UUID articleId3 = UUID.randomUUID();
+        articleStorage.put(articleId3, new Article(articleId3, "История канцелярских принадлежностей", "Ручки и ластики имеют длинную и увлекательную историю."));
     }
 
     public Collection<Product> getAllProduct() {
