@@ -69,4 +69,7 @@ public class StorageService {
         return articleStorage.values();
     }
 
+    public Map<UUID, Product> getProductStorage() {
+        return productStorage;
+    }
 }
